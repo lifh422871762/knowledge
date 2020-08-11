@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
  */
 public class PageTableDTO {
     private int page = 1;//页码
-    private int size = 15;//每页条目数
+    private int size = 5;//每页条目数
     private String field ;//排序字段
     private String order ;//升序降序
     private int total;//总条目数

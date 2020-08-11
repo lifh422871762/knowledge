@@ -1,5 +1,8 @@
 server:
   port: 8000
+  servlet:
+    session:
+      timeout: 1800
 
 spring:
   application:
@@ -37,3 +40,7 @@ spring:
   jpa:
     show-sql: true
     open-in-view: false
+
+
+session:
+  user: user
