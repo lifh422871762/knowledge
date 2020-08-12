@@ -9,6 +9,7 @@ import com.li.knowledge.sys.user.model.vo.UserVO;
 import com.li.knowledge.sys.user.repository.UserRepositroy;
 import com.li.knowledge.sys.user.service.UserService;
 import com.li.knowledge.utils.json.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.List;
  * @author: lifh
  * @create: 2020-08-07 15:48
  **/
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -54,6 +56,7 @@ public class UserServiceImpl implements UserService {
             }
             return new Result(false, Message.ERROR_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
         }catch (Exception e){
+            log.error("{}",Message.ERROR_MESSAGE_SUBMIT,e.getLocalizedMessage());
             return new Result(false, Message.ERROR_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
         }
     }
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
             }
             return new Result(false, Message.ERROR_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
         }catch (Exception e){
+            log.error("{}",Message.ERROR_MESSAGE_SUBMIT,e.getLocalizedMessage());
             return new Result(false, Message.ERROR_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
         }
     }
@@ -82,6 +86,7 @@ public class UserServiceImpl implements UserService {
             userRepositroy.deleteById(id);
             return new Result(true, Message.SUCCESS_MESSAGE_DELETE, id);
         }catch (Exception e){
+            log.error("{}",Message.ERROR_MESSAGE_DELETE,e.getLocalizedMessage());
             return new Result(false, Message.ERROR_MESSAGE_DELETE, id);
         }
     }
