@@ -31,7 +31,7 @@ public class UserDTO extends PageTableDTO {
     /**
      * 查询逻辑字段
      */
-    private Date startDate;//开始时间日期查询。
-    private Date endDate;//结束时间日期查询。
+    private String startDate;//开始时间日期查询。
+    private String endDate;//结束时间日期查询。
 
 }

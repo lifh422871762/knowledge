@@ -59,10 +59,10 @@ public class UserRepositroyImpl implements UserRepositroyCustomr {
             if(0 != userDTO.getStatus()){
                 sql += " and status = :status";
             }
-            if(null != userDTO.getStartDate()){
+            if(StringUtils.isNotBlank(userDTO.getStartDate())){
                 sql += " and created_at >= :startDate";
             }
-            if(null != userDTO.getEndDate()){
+            if(StringUtils.isNotBlank(userDTO.getEndDate())){
                 sql += " and created_at <= :endDate";
             }
         }
