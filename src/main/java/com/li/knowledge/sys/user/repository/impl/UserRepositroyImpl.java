@@ -5,6 +5,7 @@ import com.alibaba.druid.util.JdbcConstants;
 import com.li.knowledge.sys.user.model.dto.UserDTO;
 import com.li.knowledge.sys.user.model.vo.UserVO;
 import com.li.knowledge.sys.user.repository.UserRepositroyCustomr;
+import com.li.knowledge.utils.date.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -57,6 +58,12 @@ public class UserRepositroyImpl implements UserRepositroyCustomr {
             }
             if(0 != userDTO.getStatus()){
                 sql += " and status = :status";
+            }
+            if(null != userDTO.getStartDate()){
+                sql += " and created_at >= :startDate";
+            }
+            if(null != userDTO.getEndDate()){
+                sql += " and created_at <= :endDate";
             }
         }
         sql = sql + " ORDER BY lu.seq asc";//排序字段排序

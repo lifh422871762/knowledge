@@ -1,6 +1,5 @@
 package com.li.knowledge.aspect;
 
-import com.li.knowledge.sys.BaseController;
 import com.li.knowledge.utils.http.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Aspect
 @Component
-public class SysLogAspect extends BaseController {
+public class SysLogAspect {
 
 
     //第一个 * 号代表匹配所有返回类型
@@ -29,7 +28,6 @@ public class SysLogAspect extends BaseController {
     //自定义规则切面
     @Around("Pointcut()")
     public Object Around(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println(getLoginName());
 
         HttpServletRequest request = ((ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes()).getRequest();
@@ -41,6 +39,7 @@ public class SysLogAspect extends BaseController {
     }
 
     //自定义注解切面
+
 //    @Around("@annotation(syslog)")
 //    public Object Around(ProceedingJoinPoint pjp, SysLog syslog) throws Throwable {
 //        System.out.println(syslog.type());

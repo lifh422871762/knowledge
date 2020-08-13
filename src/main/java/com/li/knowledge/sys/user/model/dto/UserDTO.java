@@ -28,4 +28,10 @@ public class UserDTO extends PageTableDTO {
     private String modifiedBy;//修改人
     private Date modifiedAt;//修改时间
 
+    /**
+     * 查询逻辑字段
+     */
+    private Date startDate;//开始时间日期查询。
+    private Date endDate;//结束时间日期查询。
+
 }

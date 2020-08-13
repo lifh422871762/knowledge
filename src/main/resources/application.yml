@@ -36,11 +36,11 @@ spring:
     filters: stat
     # asyncInit是1.1.4中新增加的配置，如果有initialSize数量较多时，打开会加快应用启动时间
     asyncInit: true
-
   jpa:
     show-sql: true
     open-in-view: false
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 session:
   user: user
