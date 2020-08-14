@@ -22,7 +22,7 @@ public class UserDTO extends PageTableDTO {
     private String email;//邮箱
     private int seq;//排序
     private int status;//状态 1可用 2不可用
-    private String describe;//描述
+    private String remarks;//描述
     private String createdBy;//创建人
     private Date createdAt;//创建时间
     private String modifiedBy;//修改人

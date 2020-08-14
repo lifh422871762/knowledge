@@ -1,6 +1,7 @@
 package com.li.knowledge.sys.user.service.impl;
 
 import com.li.knowledge.common.constant.Message;
+import com.li.knowledge.common.constant.SysConstant;
 import com.li.knowledge.common.model.LayuiTableResult;
 import com.li.knowledge.common.model.Result;
 import com.li.knowledge.sys.user.model.User;
@@ -48,10 +49,11 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             if(null != userDTO){
+                userDTO.setLoginPassword(SysConstant.DEFAULT_PASSWORD);
                 userDTO.setCreatedAt(new Date());
                 user = new User();
                 BeanUtils.copyProperties(userDTO,user);
-                user = userRepositroy.save(user);
+                userRepositroy.save(user);
                 return new Result(true, Message.SUCCESS_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
             }
             return new Result(false, Message.ERROR_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
@@ -66,10 +68,9 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             if(null != userDTO && StringUtils.isNotEmpty(userDTO.getId())){
-                String [] excludeCol = {"createdBy","createdAt"};
                 userDTO.setModifiedAt(new Date());
                 user = new User();
-                BeanUtils.copyProperties(userDTO,user,excludeCol);
+                BeanUtils.copyProperties(userDTO,user);
                 user = userRepositroy.save(user);
                 return new Result(true, Message.SUCCESS_MESSAGE_SUBMIT, JsonUtils.toJSONString(user));
             }

@@ -1,6 +1,7 @@
 package com.li.knowledge.sys.user.model;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,10 +15,11 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "li_user")
+@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "jpa-uuid")
     private String id;//主键
     private String loginName;//登录名
     private String loginPassword;//登录密码
@@ -26,7 +28,7 @@ public class User {
     private String email;//邮箱
     private int seq;//排序
     private int status;//状态 1可用 2不可用
-    private String describe;//描述
+    private String remarks;//描述
     private String createdBy;//创建人
     private Date createdAt;//创建时间
     private String modifiedBy;//修改人

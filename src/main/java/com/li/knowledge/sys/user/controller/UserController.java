@@ -7,6 +7,7 @@ import com.li.knowledge.sys.user.model.dto.UserDTO;
 import com.li.knowledge.sys.user.model.vo.UserVO;
 import com.li.knowledge.sys.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +46,8 @@ public class UserController extends BaseController {
     * @Date: 2020/8/10 0010 上午 9:52
     */
     @RequestMapping(value = "/insert" , method = RequestMethod.POST)
-    public Result insert(UserDTO userDTO){
-        userDTO.setCreatedBy(getLoginName());
+    public Result insert(@RequestBody UserDTO userDTO){
+        userDTO.setCreatedBy("lifuhao");
         return userService.insert(userDTO);
     }
 
@@ -58,8 +59,8 @@ public class UserController extends BaseController {
     * @Date: 2020/8/10 0010 上午 11:02
     */
     @RequestMapping(value = "/update" , method = RequestMethod.POST)
-    public Result update(UserDTO userDTO){
-        userDTO.setModifiedBy(getLoginName());
+    public Result update(@RequestBody UserDTO userDTO){
+        userDTO.setModifiedBy("lifuhao");
         return userService.update(userDTO);
     }
 
@@ -86,6 +87,5 @@ public class UserController extends BaseController {
     public UserVO findById(String id){
         return userService.findById(id);
     }
-
 
 }
