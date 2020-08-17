@@ -2,6 +2,7 @@ package com.li.knowledge.sys.user.service;
 
 import com.li.knowledge.common.model.LayuiTableResult;
 import com.li.knowledge.common.model.Result;
+import com.li.knowledge.sys.user.model.dto.RestUserPassDTO;
 import com.li.knowledge.sys.user.model.dto.UserDTO;
 import com.li.knowledge.sys.user.model.vo.UserVO;
 
@@ -66,4 +67,13 @@ public interface UserService {
     * @Date: 2020/8/10 0010 下午 2:19
     */
     UserVO findByLoginName(String loginName);
+
+    /**
+     * @Description: 用户重置密码
+     * @Param: userPassDTO
+     * @return: Result
+     * @Author: lifh
+     * @Date: 2020/8/17 0017 上午 10:59
+     */
+    Result restPassword(RestUserPassDTO userPassDTO);
 }

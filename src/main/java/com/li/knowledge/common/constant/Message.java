@@ -18,5 +18,10 @@ public class Message {
     public static final String LOGIN_MESSAGE_SUCCESS = "登录成功";
     public static final String LOGINOUT_MESSAGE_SUCCESS = "退出成功";
 
+    public static final String SUCCESS_MESSAGE_RESET_PASS = "重置密码成功";
+    public static final String ERROR_MESSAGE_RESET_PASS = "重置密码失败";
+    public static final String ERROR_MESSAGE_RESET_USEDPASS = "旧密码不正确";
+    public static final String ERROR_MESSAGE_RESET_LOGINNAME = "该用户不存在";
+
 
 }

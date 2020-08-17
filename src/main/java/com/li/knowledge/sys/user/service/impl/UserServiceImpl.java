@@ -5,6 +5,7 @@ import com.li.knowledge.common.constant.SysConstant;
 import com.li.knowledge.common.model.LayuiTableResult;
 import com.li.knowledge.common.model.Result;
 import com.li.knowledge.sys.user.model.User;
+import com.li.knowledge.sys.user.model.dto.RestUserPassDTO;
 import com.li.knowledge.sys.user.model.dto.UserDTO;
 import com.li.knowledge.sys.user.model.vo.UserVO;
 import com.li.knowledge.sys.user.repository.UserRepositroy;
@@ -109,6 +110,22 @@ public class UserServiceImpl implements UserService {
             return userVO;
         }
         return userVO;
+    }
+
+    @Override
+    public Result restPassword(RestUserPassDTO userPassDTO) {
+        User user = userRepositroy.findById(userPassDTO.getId()).orElse(new User());
+        if(null != user){
+            if(user.getLoginPassword().equals(userPassDTO.getUsedPass())){
+                user.setLoginPassword(userPassDTO.getNewPass());
+                if(null != userRepositroy.save(user)){
+                    return new Result(true , Message.SUCCESS_MESSAGE_RESET_PASS);
+                }
+                return new Result(false , Message.ERROR_MESSAGE_RESET_PASS);
+            }
+            return new Result(false , Message.ERROR_MESSAGE_RESET_USEDPASS);
+        }
+        return new Result(false , Message.ERROR_MESSAGE_RESET_LOGINNAME);
     }
 
 }
