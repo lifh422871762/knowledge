@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @program: knowledge
- * @description: 用户持久层接口
+ * @description: 用户持久层jpa接口
  * @author: lifh
  * @create: 2020-08-07 15:48
  **/

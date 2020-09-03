@@ -5,6 +5,12 @@ import com.li.knowledge.sys.user.model.vo.UserVO;
 
 import java.util.List;
 
+/**
+ * @program: knowledge
+ * @description: 用户持久层自定义接口
+ * @author: lifh
+ * @create: 2020-08-07 15:48
+ **/
 public interface UserRepositroyCustomr {
 
     /**
