@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public LayuiTableResult<UserVO> search(UserDTO userDTO) {
         LayuiTableResult<UserVO> tableResult = new LayuiTableResult<>();
-        List<UserVO> appinList = userRepositroy.search(userDTO);
+        List<UserVO> userList = userRepositroy.search(userDTO);
         int total = userRepositroy.countByModel(userDTO);
         tableResult.setCode(0);
         tableResult.setMsg("success");
         tableResult.setCount(total);
-        tableResult.setData(appinList);
+        tableResult.setData(userList);
         return tableResult;
     }
 

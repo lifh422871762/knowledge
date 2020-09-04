@@ -1,7 +1,6 @@
 package com.li.knowledge.sys.user.repository;
 
 import com.li.knowledge.sys.user.model.User;
-import com.li.knowledge.sys.user.model.vo.UserVO;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
