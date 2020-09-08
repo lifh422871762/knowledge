@@ -46,6 +46,7 @@ public class CheckOverTime {
     private String serviceGroup;//服务事业群
     private String outsourceType;//外包类型
     private String city;//所在城市
+    private Integer seq;//排序
     private String status;//状态
     private String statusMessage;//状态中文编码
 }

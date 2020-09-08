@@ -32,5 +32,12 @@ public interface CheckOverTimeService {
     * @Date: 2020/9/8 0008 上午 11:25
     */ 
     Result insert(List<CheckOverTimeDTO> checkOverTimeDTOList);
-    
+
+    /**
+     * @Description: 查询所有加班核对数据集合
+     * @return: 加班核对数据集合
+     * @Author: lifh
+     * @Date: 2020/9/8 0008 上午 11:25
+     */
+    List<CheckOverTimeVO> selectAll();
 }

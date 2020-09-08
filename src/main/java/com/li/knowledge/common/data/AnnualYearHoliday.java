@@ -19,6 +19,19 @@ public class AnnualYearHoliday {
     */
     public static List<String> getAnnualYearHoliday(){
         List<String> holidayList = new ArrayList<>();
+
+        //2020年8月节假日
+        holidayList.add("2020-08-01");
+        holidayList.add("2020-08-02");
+        holidayList.add("2020-08-08");
+        holidayList.add("2020-08-09");
+        holidayList.add("2020-08-15");
+        holidayList.add("2020-08-16");
+        holidayList.add("2020-08-22");
+        holidayList.add("2020-08-23");
+        holidayList.add("2020-08-29");
+        holidayList.add("2020-08-30");
+
         //2020年9月节假日
         holidayList.add("2020-09-05");
         holidayList.add("2020-09-06");

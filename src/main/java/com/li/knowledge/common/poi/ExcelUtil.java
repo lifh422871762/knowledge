@@ -2,6 +2,7 @@ package com.li.knowledge.common.poi;
 
 import com.li.knowledge.common.annotation.Excel;
 import com.li.knowledge.common.model.ReturnResult;
+import com.li.knowledge.sys.checkexcel.overtime.model.vo.CheckOverTimeVO;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
@@ -83,9 +84,9 @@ public class ExcelUtil<T> {
                 // 从第2行开始取数据,默认第一行是表头.
                 Row row = sheet.getRow(i);
                 //获取一行所有的单元格的数量
-                int cellNum = sheet.getRow(i).getPhysicalNumberOfCells();
+//                int cellNum = sheet.getRow(i).getPhysicalNumberOfCells();
                 T entity = null;
-                for (int j = 0; j <= cellNum; j++) {
+                for (int j = 0; j <= 21; j++) {
                     Cell cell = row.getCell(j);
                     if (cell == null) {
                         continue;
@@ -254,7 +255,7 @@ public class ExcelUtil<T> {
                     HSSFFont font = workbook.createFont();
                     font.setColor(HSSFFont.COLOR_RED);
                     cellStyle.setFont(font);
-                    cellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+                    cellStyle.setFillForegroundColor(IndexedColors.TURQUOISE.getIndex());
                     sheet.setColumnWidth(i, 6000);
                 } else {
                     HSSFFont font = workbook.createFont();
@@ -262,11 +263,15 @@ public class ExcelUtil<T> {
                     font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
                     // 选择需要用到的字体格式
                     cellStyle.setFont(font);
-                    cellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+                    cellStyle.setFillForegroundColor(IndexedColors.TURQUOISE.getIndex());
 
                     // 设置列宽
-                    sheet.setColumnWidth(i, 3766);
+                    sheet.setColumnWidth(i, 4000);
                 }
+                cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+                cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+                cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
                 cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                 cellStyle.setWrapText(true);
                 cell.setCellStyle(cellStyle);
@@ -288,14 +293,22 @@ public class ExcelUtil<T> {
 
             int startNo = index * sheetSize;
             int endNo = Math.min(startNo + sheetSize, list.size());
-            // 写入各条记录,每条记录对应excel表中的一行
-            HSSFCellStyle cs = workbook.createCellStyle();
-            cs.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            cs.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
             for (int i = startNo; i < endNo; i++) {
-                row = sheet.createRow(i + 1 - startNo);
                 // 得到导出对象.
-                T vo = (T) list.get(i);
+                CheckOverTimeVO vo = (CheckOverTimeVO) list.get(i);
+                // 写入各条记录,每条记录对应excel表中的一行
+                HSSFCellStyle cs = workbook.createCellStyle();
+                cs.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                cs.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+                cs.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+                cs.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+                cs.setBorderTop(HSSFCellStyle.BORDER_THIN);
+                cs.setBorderRight(HSSFCellStyle.BORDER_THIN);
+                if(null != vo.getStatus() && !"".equals(vo.getStatus())){
+                    cs.setFillForegroundColor(IndexedColors.RED.getIndex());
+                    cs.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                }
+                row = sheet.createRow(i + 1 - startNo);
                 for (int j = 0; j < fields.size(); j++) {
                     // 获得field.
                     Field field = fields.get(j);
@@ -335,8 +348,6 @@ public class ExcelUtil<T> {
             }
         }
         try {
-            String filename = encodingFilename(sheetName);
-            //OutputStream out = new FileOutputStream(getfile() + filename);
             workbook.write(out);
             out.close();
             ReturnResult returnResult = new ReturnResult();

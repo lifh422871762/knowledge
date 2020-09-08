@@ -83,6 +83,8 @@ public class CheckOverTimeDTO extends PageTableDTO {
     @Excel(name = "所在城市")
     private String city;//所在城市
 
+    private Integer seq;//排序
+
     private String status;//状态
 
     private String statusMessage;//状态中文编码

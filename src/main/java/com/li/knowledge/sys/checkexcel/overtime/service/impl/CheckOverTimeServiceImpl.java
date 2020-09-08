@@ -46,17 +46,31 @@ public class CheckOverTimeServiceImpl implements CheckOverTimeService {
         }
         List<CheckOverTime> list = new ArrayList<>();
         computedCheckOverTime(checkOverTimeDTOList);
-        for(CheckOverTimeDTO checkOverTimeDTO :checkOverTimeDTOList){
+        for(int i=0 ; i<checkOverTimeDTOList.size() ; i++ ){
             CheckOverTime checkOverTime = new CheckOverTime();
-            BeanUtils.copyProperties(checkOverTimeDTO,checkOverTime);
+            BeanUtils.copyProperties(checkOverTimeDTOList.get(i),checkOverTime);
+            checkOverTime.setSeq(i+1);
             list.add(checkOverTime);
         }
         try {
+            checkOverTimeRepository.deleteAll();
             checkOverTimeRepository.saveAll(list);
-            return new Result(true,"，导入数据成功");
+            return new Result(true,"导入数据成功");
         }catch (Exception e) {
-            return new Result(false,"，导入数据失败");
+            return new Result(false,"导入数据失败");
         }
+    }
+
+    @Override
+    public List<CheckOverTimeVO> selectAll() {
+        List<CheckOverTimeVO> list = new ArrayList<>();
+        List<CheckOverTime> all = (List<CheckOverTime>) checkOverTimeRepository.findAll();
+        for(int i=0 ; i<all.size() ; i++ ){
+            CheckOverTimeVO checkOverTimeVO = new CheckOverTimeVO();
+            BeanUtils.copyProperties(all.get(i),checkOverTimeVO);
+            list.add(checkOverTimeVO);
+        }
+        return list;
     }
 
 
@@ -84,47 +98,48 @@ public class CheckOverTimeServiceImpl implements CheckOverTimeService {
                 continue;
             }
             //3，加班单【开始日期】必须 >= 【签入】
-            if(!OverTimeDateUtils.isSubmitDYStartTime(checkOverTimeDTO.getStartTime(),checkOverTimeDTO.getCheckInTime())){
+            if(!OverTimeDateUtils.isADYB(checkOverTimeDTO.getStartTime(),checkOverTimeDTO.getCheckInTime())){
                 checkOverTimeDTO.setStatus("异常");
                 checkOverTimeDTO.setStatusMessage("开始时间 < 签入时间!");
                 continue;
             }
             //4，加班单【结束日期】 必须 <= 【签出】
-            if(!OverTimeDateUtils.isSubmitDYStartTime(checkOverTimeDTO.getCheckOutTime(),checkOverTimeDTO.getEndTime())){
+            if(!OverTimeDateUtils.isADYB(checkOverTimeDTO.getCheckOutTime(),checkOverTimeDTO.getEndTime())){
                 checkOverTimeDTO.setStatus("异常");
                 checkOverTimeDTO.setStatusMessage("结束时间 > 签出时间!");
                 continue;
             }
             //如果是工作日需要判断一下条件。
             if(!OverTimeDateUtils.isHoliday(checkOverTimeDTO.getStartTime())){
-                //5，加班单【签入】必须 <= “9:30”
+                //5，加班单【签入】如果 <= “6:00” 给出警告信息
+                if(!OverTimeDateUtils.isCheckinSix(checkOverTimeDTO.getCheckInTime())){
+                    checkOverTimeDTO.setStatus("警告");
+                    checkOverTimeDTO.setStatusMessage("签入时间疑似不正常请查看!");
+                    continue;
+                }
+                //6，加班单【签入】必须 <= “9:30”
                 if(!OverTimeDateUtils.isCheckinNine(checkOverTimeDTO.getCheckInTime())){
-                    if(!OverTimeDateUtils.isCheckinSix(checkOverTimeDTO.getCheckInTime())){
-                        checkOverTimeDTO.setStatus("警告");
-                        checkOverTimeDTO.setStatusMessage("签入时间疑似不正常请查看!");
-                        continue;
-                    }
                     checkOverTimeDTO.setStatus("异常");
                     checkOverTimeDTO.setStatusMessage("签入时间 > 9:30!");
                     continue;
                 }
-                //6，加班单【开始日期】必须在“18:00”之后的时间
+                //7，加班单【开始日期】必须在“18:00”之后的时间
                 if(!OverTimeDateUtils.isDateSixH(checkOverTimeDTO.getStartTime())){
                     checkOverTimeDTO.setStatus("异常");
                     checkOverTimeDTO.setStatusMessage("开始日期 < 18:00!");
                     continue;
                 }
-                //7，加班单【开始日期】-【签入】必须 >= 9h。
-                if(!OverTimeDateUtils.isTimeQuantum(checkOverTimeDTO.getStartTime(),checkOverTimeDTO.getCheckInTime(),9)){
+                //8，加班单【开始日期】-【签入】必须 >= 9h。
+                if(!OverTimeDateUtils.isTimeQuantum(checkOverTimeDTO.getCheckInTime(),checkOverTimeDTO.getStartTime(),9)){
                     checkOverTimeDTO.setStatus("异常");
                     checkOverTimeDTO.setStatusMessage("开始日期 - 签入时间 < 9h!");
                     continue;
                 }
             }
-            //8，加班单【签出】-【签入】必须 >= 4h
-            if(!OverTimeDateUtils.isTimeQuantum(checkOverTimeDTO.getCheckOutTime(),checkOverTimeDTO.getCheckInTime(),4)){
+            //9，加班单【签出】-【签入】必须 >= 4h
+            if(!OverTimeDateUtils.isTimeQuantum(checkOverTimeDTO.getCheckInTime(),checkOverTimeDTO.getCheckOutTime(),4)){
                 checkOverTimeDTO.setStatus("异常");
-                checkOverTimeDTO.setStatusMessage("开始日期 - 签入时间 < 9h!");
+                checkOverTimeDTO.setStatusMessage("签出 - 签入 < 4h!");
                 continue;
             }
         }

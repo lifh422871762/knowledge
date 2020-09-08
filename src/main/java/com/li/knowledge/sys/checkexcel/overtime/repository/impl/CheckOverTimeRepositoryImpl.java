@@ -53,7 +53,7 @@ public class CheckOverTimeRepositoryImpl implements CheckOverTimeRepositoryCusto
         if (null != checkOverTimeDTO) {
 
         }
-        sql = sql + " ORDER BY lc.name asc";//排序字段排序
+        sql = sql + " ORDER BY lc.seq asc";//排序字段排序
         return sql;
     }
 }

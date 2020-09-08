@@ -22,8 +22,31 @@ public class OverTimeDateUtils {
      * @Author: lifh
      * @Date: 2020/9/7 0007 下午 3:52
      */
-    public static boolean isSubmitDYStartTime(Date sub , Date sta){
+    public static boolean isADYB(Date sub , Date sta){
         return sub.getTime() >= sta.getTime();
+    }
+
+    /**
+     * @Description: 判断提交日期是否>=开始日期
+     * @Param:  sub 提交日期
+     * @Param:  sta 开始日期
+     * @return:  大于等于 true 小于为 false
+     * @Author: lifh
+     * @Date: 2020/9/7 0007 下午 3:52
+     */
+    public static boolean isSubmitDYStartTime(Date sub , Date sta){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String substr = sdf.format(sub);
+        String stastr = sdf.format(sta);
+        Date subdate = null;
+        Date stadate = null;
+        try {
+            subdate = sdf.parse(substr);
+            stadate = sdf.parse(stastr);
+        }catch (Exception e){
+
+        }
+        return subdate.getTime() >= stadate.getTime();
     }
 
     /**

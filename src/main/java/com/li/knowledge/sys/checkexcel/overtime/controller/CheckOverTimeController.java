@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,6 +55,13 @@ public class CheckOverTimeController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
+    public void exportExcel(HttpServletResponse response){
+        ExcelUtil<CheckOverTimeVO> excelUtil = new ExcelUtil<>(CheckOverTimeVO.class);
+        List<CheckOverTimeVO> CheckOverTimeVOs = checkOverTimeService.selectAll();
+        excelUtil.exportExcelToWeb(CheckOverTimeVOs,"加班核对表",response);
     }
 
 }
