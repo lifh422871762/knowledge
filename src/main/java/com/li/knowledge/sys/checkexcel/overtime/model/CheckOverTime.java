@@ -33,6 +33,7 @@ public class CheckOverTime {
     private Date endTime;//结束日期
     private String timeHour;//加班小时数
     private String checkInHour;//签入小时数
+    private String isError;//是否疑似异常
     private Date checkInTime;//签入时间
     private Date checkOutTime;//签出时间
     private String ceaseDay;//调休天数
@@ -41,7 +42,7 @@ public class CheckOverTime {
     private String projectOvertime;//加班项目
     private Date submitTime;//提交日期
     private String currentStatus;//当前状态
-    private String reviewedBys;//已审核人
+    private String activtiBy;//已审核人
     private String serviceGroup;//服务事业群
     private String outsourceType;//外包类型
     private String city;//所在城市
