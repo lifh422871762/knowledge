@@ -1,6 +1,7 @@
 package com.li.knowledge.sys.checkexcel.overtime.controller;
 
 import com.li.knowledge.common.model.LayuiTableResult;
+import com.li.knowledge.common.model.Result;
 import com.li.knowledge.common.poi.ExcelUtil;
 import com.li.knowledge.sys.checkexcel.overtime.model.dto.CheckOverTimeDTO;
 import com.li.knowledge.sys.checkexcel.overtime.model.vo.CheckOverTimeVO;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -42,15 +42,17 @@ public class CheckOverTimeController {
     }
 
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
-    public void importExcel(@RequestParam("file") MultipartFile file){
+    public Result importExcel(@RequestParam("file") MultipartFile file){
+        Result result  = null;
         try {
             InputStream inputStream = file.getInputStream();
             ExcelUtil<CheckOverTimeDTO> excelUtil = new ExcelUtil<>(CheckOverTimeDTO.class);
-            List<CheckOverTimeDTO> checkOverTimeDTO = excelUtil.importExcel(null, inputStream);
-            System.out.println(checkOverTimeDTO.toString());
+            List<CheckOverTimeDTO> checkOverTimeDTOList = excelUtil.importExcel(null, inputStream);
+            result = checkOverTimeService.insert(checkOverTimeDTOList);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
     }
 
 }

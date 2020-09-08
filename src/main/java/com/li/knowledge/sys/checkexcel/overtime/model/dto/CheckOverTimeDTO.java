@@ -33,7 +33,6 @@ public class CheckOverTimeDTO extends PageTableDTO {
     private String timeType;//加班类型
 
     @Excel(name = "开始日期")
-
     private Date startTime;//开始日期
 
     @Excel(name = "结束日期")
@@ -44,6 +43,9 @@ public class CheckOverTimeDTO extends PageTableDTO {
 
     @Excel(name = "签入小时数")
     private String checkInHour;//签入小时数
+
+    @Excel(name = "是否疑似异常")
+    private String isError;//是否疑似异常
 
     @Excel(name = "签入时间")
     private Date checkInTime;//签入时间
@@ -70,7 +72,7 @@ public class CheckOverTimeDTO extends PageTableDTO {
     private String currentStatus;//当前状态
 
     @Excel(name = "已审核人")
-    private String reviewedBys;//已审核人
+    private String activtiBy;//已审核人
 
     @Excel(name = "服务事业群")
     private String serviceGroup;//服务事业群
@@ -106,7 +108,7 @@ public class CheckOverTimeDTO extends PageTableDTO {
                 ", projectOvertime='" + projectOvertime + '\'' +
                 ", submitTime=" + submitTime +
                 ", currentStatus='" + currentStatus + '\'' +
-                ", reviewedBys='" + reviewedBys + '\'' +
+                ", activtiBy='" + activtiBy + '\'' +
                 ", serviceGroup='" + serviceGroup + '\'' +
                 ", outsourceType='" + outsourceType + '\'' +
                 ", city='" + city + '\'' +

@@ -65,7 +65,6 @@ public class ExcelUtil<T> {
             sheet = workbook.getSheet(sheetName);
         }
         int rows = sheet.getPhysicalNumberOfRows();
-
         if (rows > 0) {
             // 有数据时才处理 得到类的所有field.
             Field[] allFields = clazz.getDeclaredFields();
@@ -84,9 +83,9 @@ public class ExcelUtil<T> {
                 // 从第2行开始取数据,默认第一行是表头.
                 Row row = sheet.getRow(i);
                 //获取一行所有的单元格的数量
-                int cellNum = sheet.getRow(0).getPhysicalNumberOfCells();
+                int cellNum = sheet.getRow(i).getPhysicalNumberOfCells();
                 T entity = null;
-                for (int j = 0; j < cellNum; j++) {
+                for (int j = 0; j <= cellNum; j++) {
                     Cell cell = row.getCell(j);
                     if (cell == null) {
                         continue;
@@ -96,19 +95,17 @@ public class ExcelUtil<T> {
 
                     String c = null;
                     if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                        c = decimal2string(cell.getNumericCellValue());
+                        c = String.valueOf(cell.getNumericCellValue());
                     } else c = cell.getStringCellValue();
                     if (StringUtils.isEmpty(c)) {
                         continue;
                     }
-                    c = replaceBlank(c);
                     // 如果不存在实例则新建.
                     entity = entity == null ? clazz.newInstance() : entity;
                     // 从map中得到对应列的field.
                     Field field = fieldsMap.get(j);
                     // 取得类型,并根据对象类型设置值.
                     Class<?> fieldType = field.getType();
-//                    Class<?> fieldType = String.class;
                     if (String.class == fieldType) {
                         field.set(entity, String.valueOf(c));
                     } else if ((Integer.TYPE == fieldType) || (Integer.class == fieldType)) {
@@ -126,15 +123,19 @@ public class ExcelUtil<T> {
                             field.set(entity, Character.valueOf(c.charAt(0)));
                         }
                     } else if (Date.class == fieldType) {
-                        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                        if(c.length()==19){
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            cell.setCellValue(sdf.format(cell.getNumericCellValue()));
-                            c = sdf.format(cell.getNumericCellValue());
-                        } else {
-                            c = cell.getStringCellValue();
+                            field.set(entity, sdf.parse(c));
+                        }else if(c.length()==16){
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            field.set(entity, sdf.parse(c));
+                        }else if(c.length()==10){
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            field.set(entity, sdf.parse(c));
                         }
                     } else if (BigDecimal.class == fieldType) {
                         c = cell.getStringCellValue();
+                        field.set(entity, String.valueOf(c));
                     }
                 }
                 if (entity != null) {
