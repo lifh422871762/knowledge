@@ -304,8 +304,11 @@ public class ExcelUtil<T> {
                 cs.setBorderLeft(HSSFCellStyle.BORDER_THIN);
                 cs.setBorderTop(HSSFCellStyle.BORDER_THIN);
                 cs.setBorderRight(HSSFCellStyle.BORDER_THIN);
-                if(null != vo.getStatus() && !"".equals(vo.getStatus())){
+                if(null != vo.getStatus() && "异常".equals(vo.getStatus())){
                     cs.setFillForegroundColor(IndexedColors.RED.getIndex());
+                    cs.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                } else if (null != vo.getStatus() && "警告".equals(vo.getStatus())){
+                    cs.setFillForegroundColor(IndexedColors.GOLD.getIndex());
                     cs.setFillPattern(CellStyle.SOLID_FOREGROUND);
                 }
                 row = sheet.createRow(i + 1 - startNo);
@@ -336,9 +339,19 @@ public class ExcelUtil<T> {
                                     cell.setCellValue("");
                                 } else {
                                     // 如果数据存在就填入,不存在填入空格.
-                                    cell.setCellValue(field.get(vo) == null ? "" : String.valueOf(field.get(vo)));
+                                    if(attr.name().equals("开始日期") || attr.name().equals("结束日期") ){
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                                        cell.setCellValue(field.get(vo) == null ? "" : sdf.format(field.get(vo)));
+                                    } else if(attr.name().equals("签入时间") || attr.name().equals("签出时间")){
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        cell.setCellValue(field.get(vo) == null ? "" : sdf.format(field.get(vo)));
+                                    } else if(attr.name().equals("提交日期")){
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        cell.setCellValue(field.get(vo) == null ? "" : sdf.format(field.get(vo)));
+                                    } else{
+                                        cell.setCellValue(field.get(vo) == null ? "" : String.valueOf(field.get(vo)));
+                                    }
                                 }
-
                             }
                         }
                     } catch (Exception e) {
